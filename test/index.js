@@ -18,7 +18,7 @@ test((t) => {
   t.end()
 })
 
-test.skip((t) => {
+test((t) => {
   t.comment('Example listed in Chainpoint paper')
   const testData = {
     leaves: [

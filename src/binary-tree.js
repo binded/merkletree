@@ -43,10 +43,14 @@ export const climb = (tree) => (idx, fn) => {
 
 // throws range error if idx returned is not within array range
 const guardRange = (tree) => (fn) => (idx) => {
-  if (!(idx > 0 && idx < tree.length)) {
-    throw new RangeError()
+  // Guard
+  const guard = (i) => {
+    if (!(i >= 0 && i < tree.length)) {
+      throw new RangeError()
+    }
+    return i
   }
-  return fn(idx)
+  return guard(fn(guard(idx)))
 }
 export const parent = (tree) => guardRange(tree)((idx) => Math.floor((idx - 1) / 2))
 export const left = (tree) => guardRange(tree)((idx) => 2 * idx + 1)
