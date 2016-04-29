@@ -1,16 +1,29 @@
 {
-  "name": "merkled",
+  "name": "merkletree",
   "version": "1.0.0",
-  "description": "",
+  "description": "Merkle Tree data structure in Javascript",
   "main": "lib/index.js",
   "scripts": {
     "start:dev": "babel-node src/server",
-    "lint": "eslint src/",
+    "lint": "eslint src/ test/",
     "build": "babel ./src --out-dir ./lib --copy-files",
     "test": "babel-tape-runner test/*.js"
   },
-  "author": "",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/blockai/merkletree.git"
+  },
+  "homepage": "https://github.com/blockai/merkletree",
+  "keywords": [
+    "merkle",
+    "merkle tree",
+    "binary tree"
+  ],
+  "bugs": {
+    "url": "https://github.com/blockai/merkletree/issues"
+  },
+  "author": "Olivier Lalonde <olalonde@gmail.com>",
+  "license": "MIT",
   "devDependencies": {
     "babel-cli": "^6.7.7",
     "babel-eslint": "^6.0.4",
@@ -21,9 +34,6 @@
     "blue-tape": "^0.2.0",
     "eslint": "^2.8.0",
     "eslint-config-airbnb": "^8.0.0",
-    "eslint-plugin-import": "^1.6.1",
-    "express": "^4.13.4",
-    "supertest": "^1.2.0",
-    "supertest-as-promised": "^3.1.0"
+    "eslint-plugin-import": "^1.6.1"
   }
 }
