@@ -1,4 +1,6 @@
 // Complete binary tree utility functions
+// Using array representation explained at
+// http://algoviz.org/OpenDSA/Books/OpenDSA/html/CompleteTree.html
 
 // The number of nodes n in a complete binary tree can be found using this formula:
 // n = 2l-1 where l is the number of leaf nodes in the tree.
@@ -28,3 +30,35 @@ export const leaves = (tree) => {
 export const root = (tree) => tree[0]
 
 export const levelOrder = (tree) => tree.map((val, idx) => idx)
+
+export const climb = (tree) => (idx, fn) => {
+  const i = idx
+  if (idx === 0) {
+    return
+  }
+  const parentIdx = parent(tree)(idx)
+  fn(tree[parentIdx], parentIdx)
+  return climb(tree)(parentIdx, fn)
+}
+
+// throws range error if idx returned is not within array range
+const guardRange = (tree) => (fn) => (idx) => {
+  if (!(idx > 0 && idx < tree.length)) {
+    throw new RangeError()
+  }
+  return fn(idx)
+}
+export const parent = (tree) => guardRange(tree)((idx) => Math.floor((idx - 1) / 2))
+export const left = (tree) => guardRange(tree)((idx) => 2 * idx + 1)
+export const right = (tree) => guardRange(tree)((idx) => 2 * idx + 2)
+
+export const findLeaf = (tree) => (leaf) => {
+  const leafCount = nodeCountToLeafCount(tree.length)
+  for (let i = 0; i < leafCount; i++) {
+    const idx = tree.length - 1 - i
+    if (tree[idx] === leaf) {
+      return idx
+    }
+  }
+  return -1
+}

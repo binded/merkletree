@@ -1,12 +1,12 @@
 import {
-  buildFromLeaves,
-  computeInteriorNodes,
-  root,
-} from './binary-tree'
+  findLeaf,
+  climb,
+  left,
+  right,
+} from './binary-tree.js'
 import { createHash } from 'crypto'
 
 const toBuffer = (value) => {
-  console.log(`toBuffer(${value})`)
   if (Buffer.isBuffer(value)) return value
   return new Buffer(value)
 }
@@ -27,9 +27,23 @@ export const computeTree = (combineFn) => (leaves) => {
     tree.push(combineFn(tree[idx + 1], tree[idx]))
     idx = idx + 2
   }
-  // TODO: IF ODD, ADD FIRST ENTRY TO END OF LIST TO MATCH
-  // https://github.com/StorjOld/hashserv/blob/master/hashserv/MerkleTree.py#L105
   return tree.reverse()
+}
+
+// throws if leaf not found
+export const proof = (tree) => (leafData) => {
+  const idx = findLeaf(tree)(leafData)
+  const res = []
+  climb(tree)(idx, (data, idx) => {
+    const leftIdx = left(tree)(idx)
+    const rightIdx = right(tree)(idx)
+    res.push({
+      left: tree[leftIdx],
+      parent: tree[idx],
+      right: tree[rightIdx],
+    })
+  })
+  return res
 }
 
 export default (leaves, {
@@ -39,6 +53,7 @@ export default (leaves, {
   const tree = computeTree(combine(hashAlgorithm, encoding))(leaves)
 
   return {
-    root: () => root(tree),
+    root: () => tree[0],
+    proof: (leaf) => proof(tree)(leaf),
   }
 }
