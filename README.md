@@ -8,6 +8,8 @@ binary trees.
 The proofs are compatible with the
 [chainpoint proof format](https://github.com/chainpoint/whitepaper/raw/master/chainpoint_white_paper.pdf).
 
+<a href="https://blockai.github.io/merkletree/">Browser demo</a>
+
 ## Install
 
 ```
