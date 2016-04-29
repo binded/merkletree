@@ -10,7 +10,7 @@ import * as btree from '../src/binary-tree'
     leaves: ['a', 'b'],
     expectedTree: [
        undefined,
-       'a', 'b'
+       'a', 'b',
     ],
   },
   {
@@ -18,7 +18,7 @@ import * as btree from '../src/binary-tree'
     expectedTree: [
          undefined,
        undefined, 'a',
-       'b', 'c'
+       'b', 'c',
     ],
   },
   {
@@ -36,7 +36,7 @@ import * as btree from '../src/binary-tree'
                            undefined,
                 undefined,             undefined,
           undefined,  undefined,    undefined,   'a',
-          'b', 'c',   'd', 'e',      'f', 'g'
+          'b', 'c',   'd', 'e',      'f', 'g',
     ],
   },
 ].forEach(({
@@ -64,7 +64,7 @@ test((t) => {
                  'a',
            'b',         'c',
        'd',  'e',    'f',   'g',
-    'h','i','k','l'
+    'h','i','k','l',
   ]
   // bind funcitons to tree
   const smartTree = {
@@ -84,8 +84,7 @@ test((t) => {
 
   const i = smartTree.findLeaf('i')
   const parents = []
-  smartTree.climb(i, (data, idx) => {
-    console.log(data)
+  smartTree.climb(i, (data) => {
     parents.push(data)
   })
   t.deepEqual(parents, ['d', 'b', 'a'])

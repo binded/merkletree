@@ -11,13 +11,13 @@ const toBuffer = (value) => {
   return new Buffer(value)
 }
 
-const combine = (hashAlgorithm = 'sha256', encoding = 'hex') => (left, right) => {
+const combine = (hashAlgorithm = 'sha256', encoding = 'hex') => (leftNode, rightNode) => {
   const hash = createHash(hashAlgorithm)
   const input = Buffer.concat([
-    toBuffer(left),
-    toBuffer(right),
+    toBuffer(leftNode),
+    toBuffer(rightNode),
   ])
-  return hash.update(input).digest('hex')
+  return hash.update(input).digest(encoding)
 }
 
 export const computeTree = (combineFn) => (leaves) => {
@@ -32,9 +32,9 @@ export const computeTree = (combineFn) => (leaves) => {
 
 // throws if leaf not found
 export const proof = (tree) => (leafData) => {
-  const idx = findLeaf(tree)(leafData)
+  const startIdx = findLeaf(tree)(leafData)
   const res = []
-  climb(tree)(idx, (data, idx) => {
+  climb(tree)(startIdx, (data, idx) => {
     const leftIdx = left(tree)(idx)
     const rightIdx = right(tree)(idx)
     res.push({
@@ -45,6 +45,11 @@ export const proof = (tree) => (leafData) => {
   })
   return res
 }
+
+/* todo
+export const verifyProof = (proofArr) => {
+}
+*/
 
 export default (leaves, {
   hashAlgorithm,

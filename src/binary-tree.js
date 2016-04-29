@@ -31,16 +31,6 @@ export const root = (tree) => tree[0]
 
 export const levelOrder = (tree) => tree.map((val, idx) => idx)
 
-export const climb = (tree) => (idx, fn) => {
-  const i = idx
-  if (idx === 0) {
-    return
-  }
-  const parentIdx = parent(tree)(idx)
-  fn(tree[parentIdx], parentIdx)
-  return climb(tree)(parentIdx, fn)
-}
-
 // throws range error if idx returned is not within array range
 const guardRange = (tree) => (fn) => (idx) => {
   // Guard
@@ -55,6 +45,15 @@ const guardRange = (tree) => (fn) => (idx) => {
 export const parent = (tree) => guardRange(tree)((idx) => Math.floor((idx - 1) / 2))
 export const left = (tree) => guardRange(tree)((idx) => 2 * idx + 1)
 export const right = (tree) => guardRange(tree)((idx) => 2 * idx + 2)
+
+export const climb = (tree) => (idx, fn) => {
+  if (idx === 0) {
+    return
+  }
+  const parentIdx = parent(tree)(idx)
+  fn(tree[parentIdx], parentIdx)
+  return climb(tree)(parentIdx, fn)
+}
 
 export const findLeaf = (tree) => (leaf) => {
   const leafCount = nodeCountToLeafCount(tree.length)

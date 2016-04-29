@@ -4,9 +4,12 @@
   "description": "Merkle Tree data structure in Javascript",
   "main": "lib/index.js",
   "scripts": {
-    "start:dev": "babel-node src/server",
-    "lint": "eslint src/ test/",
+		"pretest": "npm run lint",
     "build": "babel ./src --out-dir ./lib --copy-files",
+    "lint": "eslint src/ test/",
+    "prepublish": "npm run build",
+    "preversion": "npm test",
+    "start:dev": "babel-node src/server",
     "test": "babel-tape-runner test/*.js"
   },
   "repository": {

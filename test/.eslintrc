@@ -1,0 +1,7 @@
+{
+  "rules": {
+    "no-multi-spaces": 0,
+    "indent": 0,
+    "comma-spacing": 0
+  }
+}
