@@ -1,6 +1,7 @@
 import test from 'blue-tape'
 import merkletree, {
   computeTree,
+  verifyProof,
 } from '../src'
 
 test((t) => {
@@ -52,5 +53,8 @@ test((t) => {
   }
   const proof = tree.proof(receipt.targetHash)
   t.deepEqual(proof, receipt.targetProof)
+  t.ok(verifyProof(receipt.targetHash, testData.merkleRoot, proof))
+  t.notOk(verifyProof(receipt.targetHash, 'invalid', proof))
+  t.notOk(verifyProof(receipt.targetHash, testData.merkleRoot, proof.slice(1)))
   t.end()
 })
