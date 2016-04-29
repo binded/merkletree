@@ -1,7 +1,5 @@
 import test from 'blue-tape'
-import {
-  buildFromLeaves,
-} from '../src/binary-tree'
+import * as btree from '../src/binary-tree'
 
 [
   {
@@ -23,10 +21,40 @@ import {
        'b', 'c'
     ],
   },
-].forEach(({ leaves, expectedTree }, idx) => {
+  {
+    leaves: ['a', 'b', 'c', 'd', 'e'],
+    expectedTree: [
+                undefined,
+        undefined,     undefined,
+     undefined, 'a',   'b',  'c',
+     'd', 'e',
+    ],
+  },
+  {
+    leaves: ['a', 'b', 'c', 'd', 'e', 'f', 'g'],
+    expectedTree: [
+                           undefined,
+                undefined,             undefined,
+          undefined,  undefined,    undefined,   'a',
+          'b', 'c',   'd', 'e',      'f', 'g'
+    ],
+  },
+].forEach(({
+  leaves,
+  expectedTree,
+}, idx) => {
+  const tree = btree.buildFromLeaves(leaves)
   test((t) => {
-    const tree = buildFromLeaves(leaves)
-    t.deepEqual(tree, expectedTree, `test data #{idx}`)
+    t.comment(`testing tree #${idx}`)
+    t.deepEqual(tree, expectedTree, 'expected tree')
+    t.end()
+  })
+  test((t) => {
+    t.deepEqual(btree.root(tree), expectedTree[0], 'root()')
+    t.end()
+  })
+  test((t) => {
+    t.deepEqual(btree.leaves(tree), leaves, 'leaves()')
     t.end()
   })
 })
