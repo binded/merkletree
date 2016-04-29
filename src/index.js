@@ -3,6 +3,7 @@ import {
   climb,
   left,
   right,
+  leaves as getLeaves,
 } from './binary-tree.js'
 import { createHash } from 'crypto'
 
@@ -86,5 +87,6 @@ export default (leaves, {
   return {
     root: () => tree[0],
     proof: (leaf) => proof(tree)(leaf),
+    leaves: () => getLeaves(tree),
   }
 }
