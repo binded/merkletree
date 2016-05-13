@@ -65,3 +65,7 @@ console.log(verified)
 true
 */
 ```
+
+## TOTO
+
+- memoize hash() calls in tree to speed up branch/root computation
