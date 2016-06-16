@@ -25,13 +25,13 @@ export default class VerifyProof extends Component {
 
   onClickVerify() {
     try {
-      console.log(this.state)
       const proof = JSON.parse(this.state.proofText)
       const leafData = this.state.leafDataText.trim()
       const merkleRoot = this.state.merkleRootText.trim()
       const verified = verifyProof(leafData, merkleRoot, proof)
       this.setState({ result: verified, error: false })
     } catch (err) {
+      /* eslint-disable no-console */
       console.error(err.stack)
       this.setState({ error: err })
     }

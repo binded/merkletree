@@ -20285,12 +20285,18 @@
 	};
 
 	exports.proof = _proof;
-	var verifyProof = exports.verifyProof = function verifyProof(leaf, expectedMerkleRoot, proofArr) {
+	var verifyProof = exports.verifyProof = function verifyProof(leaf, expectedMerkleRoot) {
+	  var proofArr = arguments.length <= 2 || arguments[2] === undefined ? [] : arguments[2];
+
 	  var _ref = arguments.length <= 3 || arguments[3] === undefined ? {} : arguments[3];
 
 	  var hashAlgorithm = _ref.hashAlgorithm;
 	  var encoding = _ref.encoding;
 
+	  if (!proofArr.length) {
+	    if (leaf === expectedMerkleRoot) return true;
+	    return false;
+	  }
 	  var combineFn = combine(hashAlgorithm, encoding);
 
 	  // the merkle root should be the parent of the last part
@@ -24306,13 +24312,13 @@
 	    key: 'onClickVerify',
 	    value: function onClickVerify() {
 	      try {
-	        console.log(this.state);
 	        var proof = JSON.parse(this.state.proofText);
 	        var leafData = this.state.leafDataText.trim();
 	        var merkleRoot = this.state.merkleRootText.trim();
 	        var verified = (0, _src.verifyProof)(leafData, merkleRoot, proof);
 	        this.setState({ result: verified, error: false });
 	      } catch (err) {
+	        /* eslint-disable no-console */
 	        console.error(err.stack);
 	        this.setState({ error: err });
 	      }
