@@ -47,9 +47,13 @@ export const proof = (tree) => (leafData) => {
   return proofArr
 }
 
-export const verifyProof = (leaf, expectedMerkleRoot, proofArr, {
+export const verifyProof = (leaf, expectedMerkleRoot, proofArr = [], {
   hashAlgorithm, encoding,
 } = {}) => {
+  if (!proofArr.length) {
+    if (leaf === expectedMerkleRoot) return true
+    return false
+  }
   const combineFn = combine(hashAlgorithm, encoding)
 
   // the merkle root should be the parent of the last part

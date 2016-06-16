@@ -58,3 +58,18 @@ test((t) => {
   t.notOk(verifyProof(receipt.targetHash, testData.merkleRoot, proof.slice(1)))
   t.end()
 })
+
+test('empty branch', (t) => {
+  const wrongMerkleRoot = '0a9a3c86d47f1fe12648c86368ecd9723ff12e3fc34f6ae219d4d9d3e0d60667'
+  const merkleRoot = '6a9a3c86d47f1fe12648c86368ecd9723ff12e3fc34f6ae219d4d9d3e0d60667'
+  const targetHash = merkleRoot
+  const leaves = [targetHash]
+
+  const tree = merkletree(leaves)
+  const proof = tree.proof(targetHash)
+
+  t.deepEqual(proof, [])
+  t.ok(verifyProof(targetHash, merkleRoot, []))
+  t.notOk(verifyProof(targetHash, wrongMerkleRoot, []))
+  t.end()
+})
